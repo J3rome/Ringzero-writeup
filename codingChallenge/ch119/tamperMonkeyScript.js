@@ -12,17 +12,18 @@
 y=1;
 z=1;
 
-String.prototype.hexEncode = function(){
-    var hex, i;
-
-    var result = "";
-    for (i=0; i<this.length; i++) {
-        hex = this.charCodeAt(i).toString(16);
-        result += ("000"+hex).slice(-4);
-    }
-
-    return result;
-};
+var numberMap = [
+    ["&nbsp;xxx&nbsp;", "x&nbsp;&nbsp;&nbsp;x", "x&nbsp;&nbsp;&nbsp;x", "x&nbsp;&nbsp;&nbsp;x", "&nbsp;xxx&nbsp;"],//0
+    ["&nbsp;xx&nbsp;&nbsp;", "x&nbsp;x&nbsp;&nbsp;", "&nbsp;&nbsp;x&nbsp;&nbsp;", "&nbsp;&nbsp;x&nbsp;&nbsp;", "xxxxx"], // 1
+    ["&nbsp;xxx&nbsp;", "x&nbsp;&nbsp;&nbsp;x&nbsp;", "&nbsp;&nbsp;xx&nbsp;", "&nbsp;x&nbsp;&nbsp;&nbsp;", "xxxxx"],//2
+    ["&nbsp;xxx&nbsp;", "x&nbsp;&nbsp;&nbsp;x", "&nbsp;&nbsp;xx&nbsp;", "x&nbsp;&nbsp;&nbsp;x", "&nbsp;xxx&nbsp;"],//3
+    ["&nbsp;x&nbsp;&nbsp;&nbsp;x", "x&nbsp;&nbsp;&nbsp;&nbsp;x", "&nbsp;xxxxx", "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x", "&nbsp;&nbsp;&nbsp;&nbsp;x"],// 4
+    ["xxxxx", "x&nbsp;&nbsp;&nbsp;&nbsp;", "&nbsp;xxxx", "&nbsp;&nbsp;&nbsp;&nbsp;x", "xxxxx"],// 5
+    [],// 6 : Did not find a serie with this number
+    [],// 7 : Did not find a serie with this number
+    [],// 8 : Did not find a serie with this number
+    [] // 9 : Did not find a serie with this number
+];
 
 (function() {
     'use strict';
@@ -34,8 +35,6 @@ String.prototype.hexEncode = function(){
     
     var msgText = msg.html().replace("----- BEGIN MESSAGE -----","").replace("----- END MESSAGE -----","").replace(/\s/g,"").split("<br>");
     
-    console.log(msgText);
-    
     var i =0;
     while(i< msgText.length){
         if(msgText[i] == ""){
@@ -45,23 +44,32 @@ String.prototype.hexEncode = function(){
         }
     }
     
-    var buff="";
-    var resp = [];
+    var buff=[];
+    var respAscii = [];
     
     for(var j=0;j < msgText.length;j++){
         if(j%5 == 0 && j != 0){
-            resp.push(buff);
-            buff = "";
+            respAscii.push(buff);
+            buff = [];
         }
-        buff += msgText[j];
+        buff.push(msgText[j]);
     }
+    
+    respAscii.push(buff);
+    
+    var ans = [];
 
+    for(var j=0;j < respAscii.length;j++){
+        for(var k =0;k<numberMap.length;k++){
+            if(JSON.stringify(respAscii[j]) == JSON.stringify(numberMap[k])){
+                ans.push(k);
+            }
+        }
+    }
     
-    y = resp;
+    if(ans.length != respAscii.length){
+        console.log("Some Nb were not detected !");   
+    }
     
-    //var hash = sha512(msgText);
-    
-    //window.location.pathname = window.location.pathname + "/"+hash;
-
-    // Your code here...
+    window.location.pathname = window.location.pathname + "/"+ans.join("");
 })();
